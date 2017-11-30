@@ -1,0 +1,16 @@
+{
+  "name": "g-snacks-server",
+  "version": "0.0.1",
+  "description": "Server for Galvanize group projects: snacks",
+  "main": "knexfile.js",
+  "scripts": {
+    "test": "none",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KevinUSCU/g-snacks-server"
+  },
+  "author": "Justin, Kevin, RJ",
+  "license": "ISC"
+}
