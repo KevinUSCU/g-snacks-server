@@ -4,7 +4,8 @@
   "description": "Server for Galvanize group projects: snacks",
   "main": "knexfile.js",
   "scripts": {
-    "test": "none",
+    "dev": "nodemon server.js",
+    "knex": "knex",
     "start": "node server.js"
   },
   "repository": {
@@ -12,5 +13,16 @@
     "url": "https://github.com/KevinUSCU/g-snacks-server"
   },
   "author": "Justin, Kevin, RJ",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.12.1"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "knex": "^0.14.2",
+    "morgan": "^1.9.0",
+    "pg": "^7.4.0"
+  }
 }
