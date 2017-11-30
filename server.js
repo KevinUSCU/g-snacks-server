@@ -9,8 +9,10 @@ app.use(bodyParser.json());
 app.use(morgan('dev'))
 app.use(cors())
 
-const snacks = require('./routes/snacks');
-app.use('/api', snacks);
+const snacks = require('./routes/snacks.routes');
+app.use('/api/snacks', snacks);
+const users = require('./routes/users.routes')
+app.use('/api/users', users)
 
 app.use((req, res) => {
   const status = 404;
