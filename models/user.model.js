@@ -27,7 +27,10 @@ class UserModel {
   }
 
   static destroy (id) {
-
+    return db('users')
+    .where({ id })
+    .del()
+    .returning(['id'])
   }
 
   // requestToken is the equivalent of logging in
