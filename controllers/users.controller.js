@@ -18,9 +18,19 @@ class UsersController {
   static create (req, res, next) {
     // create is the same as signing up a new user; no token required
     const { first_name, last_name, email, password } = req.body
-    // need to verify all fields and no duplicate emails
-    UserModel.create(first_name, last_name, email, password)
-    .then(response => res.json({response}))
+    // verify all fields exist
+    if (!first_name) return next({ status: 400, error: 'First name is required' })
+    if (!last_name) return next({ status: 400, error: 'Last name is required' })
+    if (!email) return next({ status: 400, error: 'Email address is required' })
+    if (!password) return next({ status: 400, error: 'A password is required' })
+    // verify email is unique
+    UserModel.getUserByEmail(email)
+    .then(user => {
+      if (user) return next({ status: 409, error: 'A user with this email address already exists.' })
+      return UserModel.create(first_name, last_name, email, password)
+    })
+    .then(() => UserModel.requestToken(email, password))
+    .then(token => res.json({ token }))
     .catch(err => res.json(err))
   }
 
