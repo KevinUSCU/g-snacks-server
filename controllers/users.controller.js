@@ -8,7 +8,9 @@ class UsersController {
   }
 
   static showOne (req, res, next) {
-
+    UserModel.getUser(req.params.id)
+    .then(response => res.json({response}))
+    .catch(err => res.json(err))
   }
 
   static create (req, res, next) {
