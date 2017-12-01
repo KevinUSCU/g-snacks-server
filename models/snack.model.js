@@ -7,6 +7,12 @@ class snackModel {
     return db('snacks')
     // return db('snacks_dev')
   }
+
+  static getOne (id) {
+    return db('snacks')
+    .where({id})
+    .first()
+  }
 }
 
 module.exports = snackModel
