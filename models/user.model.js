@@ -23,7 +23,8 @@ class UserModel {
   }
 
   static update (id, first_name, last_name, email, password, role) {
-    if (password) const hashed_password = bcrypt.hashSync(password)
+    let hashed_password
+    if (password) hashed_password = bcrypt.hashSync(password)
     return db('users')
     .where({ id })
     .update({ first_name, last_name, email, hashed_password, role, thisKeyIsSkipped: undefined })
