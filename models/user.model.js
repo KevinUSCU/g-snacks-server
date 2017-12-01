@@ -1,5 +1,9 @@
 const db = require('../db/knex')
-const bcrypt = require('bcryptjs')
+const { promisify } = require('util')
+const { hash, compare } = require('bcryptjs')
+const hashPromise = promisify(hash)
+const comparePromise = promisify(compare)
+const Token = require('./token.model')
 
 class UserModel {
   static getAll () {
@@ -14,21 +18,40 @@ class UserModel {
     .first()
   }
 
-  static create (first_name, last_name, email, password) {
-    const hashed_password = bcrypt.hashSync(password)
+  static getUserByEmail(email) {
     return db('users')
-    .insert({ first_name, last_name, email, hashed_password })
-    // note that 'role' is automatically defaulted to 'user' by the db
-    .returning(['id'])
+    .select('email')
+    .where({ email })
+    .first()
+  }
+
+  static create (first_name, last_name, email, password) { 
+    return hashPromise(password)
+    .then(hashed_password => {
+      return db('users')
+      .insert({ first_name, last_name, email, hashed_password })
+      // note that 'role' is automatically defaulted to 'user' by the db
+      .returning(['id'])
+    })
+    .catch(error => { throw error })
   }
 
   static update (id, first_name, last_name, email, password, role) {
-    let hashed_password
-    if (password) hashed_password = bcrypt.hashSync(password)
-    return db('users')
-    .where({ id })
-    .update({ first_name, last_name, email, hashed_password, role, thisKeyIsSkipped: undefined })
-    .returning(['id'])
+    if (password) {
+      return hashPromise(password)
+      .then(hashed_password => {
+        return db('users')
+        .where({ id })
+        .update({ first_name, last_name, email, hashed_password, role, thisKeyIsSkipped: undefined })
+        .returning(['id'])
+      })
+      .catch(error => { throw error })
+    } else {
+      return db('users')
+      .where({ id })
+      .update({ first_name, last_name, email, role, thisKeyIsSkipped: undefined })
+      .returning(['id'])
+    }
   }
 
   static destroy (id) {
@@ -40,7 +63,17 @@ class UserModel {
 
   // requestToken is the equivalent of logging in
   static requestToken (email, password) {
-
+    return db('users')
+    .select('id', 'first_name', 'last_name', 'hashed_password')
+    .where({ email })
+    .first()
+    .then(user => {
+      if (!user) throw new Error('No such user')
+      if (!bcrypt.compareSync(password, user.hashed_password)) throw new Error('Incorrect password')
+      return user
+    })
+    .then(user => Token.signAsync(user))
+    .catch(error => { throw error })
   }
 
   // this will verify a user
