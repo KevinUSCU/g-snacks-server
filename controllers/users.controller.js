@@ -45,6 +45,19 @@ class UsersController {
     .catch(err => processError(err, next))
   }
 
+  static showOneFromToken (req, res, next) {
+    // Validate and decode token
+    Token.verifyAndExtractHeaderToken(req.headers)
+    .catch(err => { throw new Error('invalidToken') })
+    // Check for and retrieve user from database
+    .then(token => UserModel.getUser(token.sub.id))
+    .then(user => {
+      if (!user) throw new Error('noSuchUser')
+      return res.status(200).json({ response: user })
+    })
+    .catch(err => processError(err, next))
+  }
+
   static create (req, res, next) {
     // *** Create is equivalent to signing up a new user; no token is required ***
     const { first_name, last_name, email, password } = req.body
