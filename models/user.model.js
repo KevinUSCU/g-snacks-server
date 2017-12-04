@@ -35,7 +35,7 @@ class UserModel {
     return db('users')
       .where({ id })
       .update({ first_name, last_name, email, hashed_password, role, thisKeyIsSkipped: undefined })
-      .returning(['id'])
+      .returning(['id', 'first_name', 'last_name', 'role'])
   }
 
   static destroy (id) {
