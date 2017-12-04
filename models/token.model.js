@@ -7,8 +7,8 @@ const secret = process.env.SECRET_KEY
 class Token {
   // Both of these Token methods are async and return a promise
 
-  static sign(id, first_name, last_name, role) {
-    const sub = { id, first_name, last_name, role }
+  static sign(id) {
+    const sub = { id }
     const expiresIn = '7 days'
     return signPromise({ sub }, secret, { expiresIn })
   }
