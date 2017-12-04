@@ -14,43 +14,44 @@ class UserModel {
     .first()
   }
 
-  // create is the same as signing up a new user
-  static create (first_name, last_name, email, password) {
+  static getUserIdByEmail (email) {
+    return db('users')
+    .select('id')
+    .where({ email })
+    .first()
+  }
+
+  static getUserForVerification (email) {
+    return db('users')
+    .select('id', 'hashed_password')
+    .where({ email })
+    .first()
+  }
+
+  static create (first_name, last_name, email, password) { 
     const hashed_password = bcrypt.hashSync(password)
     return db('users')
     .insert({ first_name, last_name, email, hashed_password })
-    .returning(['id', 'hashed_password'])
+    // note that 'role' is automatically defaulted to 'user' by the db
+    .returning(['id'])
   }
 
-  static update () {
-
+  static update (id, first_name, last_name, email, password, role) {
+    let hashed_password
+    if (password) hashed_password = bcrypt.hashSync(password)
+    return db('users')
+      .where({ id })
+      .update({ first_name, last_name, email, hashed_password, role, thisKeyIsSkipped: undefined })
+      .returning(['id'])
   }
 
   static destroy (id) {
     return db('users')
     .where({ id })
     .del()
-    .returning(['id'])
   }
 
-  // requestToken is the equivalent of logging in
-  static requestToken (email, password) {
-
-  }
-
-  // this will verify a user
-  static verify (token) {
-
-  }
 }
 
 
 module.exports = UserModel
-
-
-function updateShroom(id, owner_id, name, cap, base, mouth, eyes, eyeballs, eyebrows, flourish, cap_color_1, cap_color_2) {
-  return knex('shrooms')
-  .where({ id })
-  .update({ owner_id, name, cap, base, mouth, eyes, eyeballs, eyebrows, flourish, cap_color_1, cap_color_2, thisKeyIsSkipped: undefined })
-  .returning(['name'])
-}

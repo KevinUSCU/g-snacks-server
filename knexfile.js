@@ -1,4 +1,6 @@
 'use strict';
+// Set environment
+require('dotenv').load()
 const path = require('path');
 
 module.exports = {
