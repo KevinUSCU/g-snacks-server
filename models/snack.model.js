@@ -5,13 +5,26 @@ class snackModel {
 
   static all () {
     return db('snacks')
-    // return db('snacks_dev')
   }
 
   static getOne (id) {
     return db('snacks')
     .where({id})
     .first()
+  }
+
+  static update (id, body) {
+    return db('snacks')
+    .where({id})
+    .update({name: body.name, description: body.description})
+    .returning('*')
+  }
+
+  static destroy (id) {
+    return db('snacks')
+    .where({id})
+    .del()
+    .returning('*')
   }
 }
 
