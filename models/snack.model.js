@@ -13,6 +13,13 @@ class snackModel {
     .where({id})
     .first()
   }
+
+  static destroy (id) {
+    return db('snacks')
+    .where({id})
+    .del()
+    .returning('*')
+  }
 }
 
 module.exports = snackModel
