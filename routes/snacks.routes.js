@@ -4,6 +4,7 @@ const snacksController = require('../controllers/snacks.controller')
 
 router.get('/', snacksController.showAll)
 router.get('/:id', snacksController.getOne)
+router.put('/:id', snacksController.update)
 router.delete('/:id', snacksController.destroy)
 
 
