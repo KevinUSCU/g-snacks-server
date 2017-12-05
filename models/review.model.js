@@ -1,32 +1,31 @@
 const db = require('../db/knex')
 
-class snackModel {
+class reviewModel {
   constructor () {}
 
   static all () {
-    console.log('snacks model')
-    return db('snacks')
+    return db('reviews')
   }
 
   static getOne (id) {
-    return db('snacks')
+    return db('reviews')
     .where({id})
     .first()
   }
 
   static update (id, body) {
-    return db('snacks')
+    return db('reviews')
     .where({id})
     .update({name: body.name, description: body.description})
     .returning('*')
   }
 
   static destroy (id) {
-    return db('snacks')
+    return db('reviews')
     .where({id})
     .del()
     .returning('*')
   }
 }
 
-module.exports = snackModel
+module.exports = reviewModel
