@@ -1,6 +1,5 @@
 const UserModel = require('../models/user.model')
 const Token = require('../models/token.model')
-const processError = require('./errors.controller')
 const bcrypt = require('bcryptjs')
 
 class UsersController {
@@ -20,7 +19,7 @@ class UsersController {
       return UserModel.getAll()
     })
     .then(users => res.status(200).json({ response: users }))
-    .catch(err => processError(err, next))
+    .catch(next)
   }
 
   static showOne (req, res, next) {
@@ -42,7 +41,7 @@ class UsersController {
       if (!user) throw new Error('noSuchUser')
       return res.status(200).json({ response: user })
     })
-    .catch(err => processError(err, next))
+    .catch(next)
   }
 
   static showOneFromToken (req, res, next) {
@@ -55,17 +54,18 @@ class UsersController {
       if (!user) throw new Error('noSuchUser')
       return res.status(200).json({ response: user })
     })
-    .catch(err => processError(err, next))
+    .catch(next)
   }
 
   static create (req, res, next) {
     // *** Create is equivalent to signing up a new user; no token is required ***
     const { first_name, last_name, email, password } = req.body
     // Verify all fields exist
-    if (!first_name) return next({ status: 400, message: 'First name is required' })
-    if (!last_name) return next({ status: 400, message: 'Last name is required' })
-    if (!email) return next({ status: 400, message: 'Email address is required' })
-    if (!password) return next({ status: 400, message: 'A password is required' })
+    // if (!first_name) return next({ status: 400, message: 'First name is required' })
+    if (!first_name) throw new Error('missingFirstName')
+    if (!last_name) throw new Error('missingLastName')
+    if (!email) throw new Error('missingEmail')
+    if (!password) throw new Error('missingPassword')
     // Verify that email is unique
     UserModel.getUserIdByEmail(email)
     .then(existingUser => {
@@ -77,7 +77,7 @@ class UsersController {
     .then(newUserId => Token.sign(newUserId[0].id))
     // Return token to client
     .then(token => res.status(201).json({ response: token }))
-    .catch(err => processError(err, next))
+    .catch(next)
   }
 
   static update (req, res, next) {
@@ -105,7 +105,7 @@ class UsersController {
     // Update user profile with supplied data
     .then(() => UserModel.update(id, first_name, last_name, email, password))
     .then(userId => res.status(200).json({ response: userId }))
-    .catch(err => processError(err, next))
+    .catch(next)
   }
 
   static destroy (req, res, next) {
@@ -124,15 +124,15 @@ class UsersController {
       return UserModel.destroy(id)
     })
     .then(response => res.status(204).json())
-    .catch(err => processError(err, next))
+    .catch(next)
   }
 
   static login (req, res, next) {
     // *** Login requires email and password (no token), and will return a token ***
     // Get supplied email and password and grab user match from db
     const { email, password } = req.body
-    if (!email) return next({ status: 400, message: 'Email address is required'})
-    if (!password) return next({ status: 401, message: 'Password is required' })
+    if (!email) throw new Error('missingEmail')
+    if (!password) throw new Error('missingPassword')
     // Retrieve user match from database
     UserModel.getUserForVerification(email)
     .then(user => {
@@ -144,15 +144,15 @@ class UsersController {
     })
     // Return token to client
     .then(token => res.status(201).json({ response: token }))
-    .catch(err => processError(err, next))
+    .catch(next)
   }
 
   static changeRole (req, res, next) {
     // An 'admin' token is required to change the role of another user
     const id = req.params.id
     const role = req.body.role
-    if (!role) return next({ status: 400, message: 'Role attribute is required'})
-    if (role !== 'admin' && role !== 'user') return next({ status: 400, message: "Role attribute must be either 'admin' or 'user'" })
+    if (!role) throw new Error('missingRole')
+    if (role !== 'admin' && role !== 'user') throw new Error('incorrectRoleType')
     // Validate and decode token
     Token.verifyAndExtractHeaderToken(req.headers)
     .catch(err => ThrowError.invalidToken(next))
@@ -169,7 +169,7 @@ class UsersController {
       if (!userId) throw new Error('noSuchUser')
       return res.status(200).json({ response: userId })
     })
-    .catch(err => processError(err, next))
+    .catch(next)
   }
 }
 

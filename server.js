@@ -1,6 +1,8 @@
 // To enable display of client route errors on the server, set the following to 'true'
 const printClientErrorsOnServer = false
 
+const processErrorMessage = require('./models/error.model')
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
@@ -24,9 +26,11 @@ app.use((req, res) => {
 });
 
 app.use((err, _req, res, _next) => {
-  // display error on server (if enabled)
+  // parse error message
+  err = processErrorMessage(err)
+  // display client error on server (if enabled)
   if (printClientErrorsOnServer) console.error(err)
-  // pass error to client
+  // send error to client
   const status = err.status || 500;
   const message = err.message || 'Something went wrong!';
   res.status(status).json({ status, message });
