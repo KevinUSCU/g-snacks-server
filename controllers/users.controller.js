@@ -6,18 +6,7 @@ class UsersController {
 
   static index (req, res, next) {
     // *** Require admin token to retrieve index of all users ***
-    // Validate and decode token
-    Token.verifyAndExtractHeaderToken(req.headers)
-    .catch(err => { throw new Error('invalidToken') })
-    // Check for and retrieve user from database
-    .then(token => UserModel.getUser(token.sub.id))
-    // Verify user
-    .then(user => {
-      if (!user) throw new Error('requestorInvalid')
-      if (user.role !== 'admin') throw new Error('unauthorizedUser')
-      // Pass auth check; get users from db
-      return UserModel.getAll()
-    })
+    return UserModel.getAll()
     .then(users => res.status(200).json({ response: users }))
     .catch(next)
   }
@@ -25,18 +14,8 @@ class UsersController {
   static showOne (req, res, next) {
     // *** This route requires either role of 'admin' or the user who's id we are requesting ***
     const id = req.params.id
-    // Validate and decode token
-    Token.verifyAndExtractHeaderToken(req.headers)
-    .catch(err => { throw new Error('invalidToken') })
-    // Check for and retrieve user from database
-    .then(token => UserModel.getUser(token.sub.id))
-    // Verify user
-    .then(user => {
-      if (!user) throw new Error('requestorInvalid')
-      if (!(user.role === 'admin' || (user.role === 'user' && user.id == id))) throw new Error('unauthorizedUser')
-      // Pass auth check; get user data from db
-      return UserModel.getUser(id)
-    })
+    // Get user data from db
+    return UserModel.getUser(id)
     .then(user => {
       if (!user) throw new Error('noSuchUser')
       return res.status(200).json({ response: user })
@@ -84,45 +63,29 @@ class UsersController {
     // *** Editing profile data requires the user who's id we are updating ***
     const id = req.params.id
     const { first_name, last_name, email, password } = req.body
-    // Validate and decode token
-    Token.verifyAndExtractHeaderToken(req.headers)
-    .catch(err => { throw new Error('invalidToken') })
-    // Check for and retrieve user from database
-    .then(token => UserModel.getUser(token.sub.id))
-    // Verify User
-    .then(user => {
-      if (!user) throw new Error('requestorInvalid')
-      if (user.id != id) throw new Error('unauthorizedUser')
-      // Pass auth check
-      // If email was changed, verify no duplicates
-      if (email) {
-        return UserrModel.getUserIdByEmail(email)
-        .then(existingUser => {
-          if (existingUser) throw new Error('duplicateUser')
-        })
-      } else return
-    })
-    // Update user profile with supplied data
-    .then(() => UserModel.update(id, first_name, last_name, email, password))
-    .then(userId => res.status(200).json({ response: userId }))
-    .catch(next)
+    // If email was changed, verify no duplicates
+    if (email) {
+      return UserModel.getUserIdByEmail(email)
+      .then(existingUser => {
+        if (existingUser) throw new Error('duplicateUser')
+      })
+      // Update user profile with supplied data
+      .then(() => UserModel.update(id, first_name, last_name, email, password))
+      .then(userId => res.status(200).json({ response: userId }))
+      .catch(next)
+    } else {
+      // Update user profile with supplied data
+      return UserModel.update(id, first_name, last_name, undefined, password)
+      .then(userId => res.status(200).json({ response: userId }))
+      .catch(next)
+    }
   }
 
   static destroy (req, res, next) {
     // *** Deleting a user requires either role of 'admin' or the user who's id we are requesting ***
     const id = req.params.id
-    // Validate and decode token
-    Token.verifyAndExtractHeaderToken(req.headers)
-    .catch(err => { throw new Error('invalidToken') })
-    // Check for and retrieve user from database
-    .then(token => UserModel.getUser(token.sub.id))
-    // Verify user
-    .then(user => {
-      if (!user) throw new Error('requestorInvalid')
-      if (!(user.role === 'admin' || (user.role === 'user' && user.id == id))) throw new Error('unauthorizedUser')
-      //pass auth check; delete user
-      return UserModel.destroy(id)
-    })
+    // Delete user
+    return UserModel.destroy(id)
     .then(response => res.status(204).json())
     .catch(next)
   }
@@ -153,18 +116,8 @@ class UsersController {
     const role = req.body.role
     if (!role) throw new Error('missingRole')
     if (role !== 'admin' && role !== 'user') throw new Error('incorrectRoleType')
-    // Validate and decode token
-    Token.verifyAndExtractHeaderToken(req.headers)
-    .catch(err => ThrowError.invalidToken(next))
-    // Check for and retrieve user from database
-    .then(token => UserModel.getUser(token.sub.id))
-    // Verify user
-    .then(user => {
-      if (!user) throw new Error('requestorInvalid')
-      if (user.role !== 'admin') throw new Error('unauthorizedUser')
-      // Pass auth check; update role of user in db
-      return UserModel.update(id, undefined, undefined, undefined, undefined, role)
-    })
+    // Update role of user in db
+    return UserModel.update(id, undefined, undefined, undefined, undefined, role)
     .then(userId => {
       if (!userId) throw new Error('noSuchUser')
       return res.status(200).json({ response: userId })
