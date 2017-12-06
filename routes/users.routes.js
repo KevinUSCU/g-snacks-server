@@ -11,7 +11,7 @@ router.post('/login', UsersCtrl.login)
 // Change user profile
 router.put('/:id', AuthCtrl.isOwner, UsersCtrl.update)
 // Change user role
-router.post('/promote/:id', AuthCtrl.isAdmin, UsersCtrl.changeRole)
+router.put('/promote/:id', AuthCtrl.isAdmin, UsersCtrl.changeRole)
 
 // View users
 // View user by token
