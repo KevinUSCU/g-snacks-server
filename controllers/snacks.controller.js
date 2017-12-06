@@ -9,18 +9,7 @@ class snacksController {
     .catch((err) => res.json(err))
   }
 
-<<<<<<< HEAD
-  static create (req, res, next) {
-    let body = req.body
-    snackModel.create(body)
-    .then((response) => res.json({response}))
-    .catch((err) => res.json(err))
-  }
-
-  static getOne (req, res, next) {
-=======
   static getOneWithReviews (req, res, next) {
->>>>>>> 6978ba6f8f5b749ade4ede72496218a679397b20
     let id = req.params.id
     snackModel.getOneWithReviews(id)
     .then((response) => res.json({response}))

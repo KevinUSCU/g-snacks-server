@@ -7,17 +7,7 @@ class snackModel {
     return db('snacks')
   }
 
-<<<<<<< HEAD
-  static create (name, description, img) {
-    return db('snacks')
-    .insert(name, description, img)
-    .returning('*')
-  }
-
-  static getOne (id) {
-=======
   static getOneWithReviews (id) {
->>>>>>> 6978ba6f8f5b749ade4ede72496218a679397b20
     return db('snacks')
     .leftJoin('reviews', 'snacks.id', 'reviews.snack_id')
     .where('snacks.id', id)
