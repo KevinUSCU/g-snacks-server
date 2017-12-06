@@ -1,28 +1,17 @@
-const snackModel = require('../models/snack.model')
+const reviewModel = require('../models/review.model')
 
-class snacksController {
+class reviewsController {
   constructor () {}
 
   static showAll (req, res, next) {
-    snackModel.all()
-    .then((response) => res.json({response}))
-    .catch((err) => res.json(err))
-  }
-
-<<<<<<< HEAD
-  static create (req, res, next) {
-    let body = req.body
-    snackModel.create(body)
+    reviewModel.all()
     .then((response) => res.json({response}))
     .catch((err) => res.json(err))
   }
 
   static getOne (req, res, next) {
-=======
-  static getOneWithReviews (req, res, next) {
->>>>>>> 6978ba6f8f5b749ade4ede72496218a679397b20
     let id = req.params.id
-    snackModel.getOneWithReviews(id)
+    reviewModel.getOne(id)
     .then((response) => res.json({response}))
     .catch((err) => res.json(err))
   }
@@ -30,17 +19,17 @@ class snacksController {
   static update (req, res, next) {
     let id = req.params.id
     let body = req.body
-    snackModel.update(id, body)
+    reviewModel.update(id, body)
     .then((response) => res.json({response}))
     .catch((err) => res.json(err))
   }
 
   static destroy (req, res, next){
     let id = req.params.id
-    snackModel.destroy(id)
+    reviewModel.destroy(id)
     .then((response) => res.json({response}))
     .catch((err) => res.json(err))
   }
 }
 
-module.exports = snacksController
+module.exports = reviewsController
