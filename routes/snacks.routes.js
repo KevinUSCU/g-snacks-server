@@ -7,5 +7,4 @@ router.get('/:id', snacksController.getOneWithReviews)
 router.put('/:id', snacksController.update)
 router.delete('/:id', snacksController.destroy)
 
-
 module.exports = router

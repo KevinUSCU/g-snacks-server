@@ -9,9 +9,9 @@ class snackModel {
 
   static getOneWithReviews (id) {
     return db('snacks')
-    .join('reviews', 'snacks.id', 'reviews.snack_id')
-    .where('snack_id', id)
-    .join('users', 'users.id', 'reviews.user_id')
+    .leftJoin('reviews', 'snacks.id', 'reviews.snack_id')
+    .where('snacks.id', id)
+    .leftJoin('users', 'users.id', 'reviews.user_id')
   }
 
   static getAllReviewsForOneSnack(id) {

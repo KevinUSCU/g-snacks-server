@@ -11,7 +11,6 @@ class snacksController {
 
   static getOneWithReviews (req, res, next) {
     let id = req.params.id
-
     snackModel.getOneWithReviews(id)
     .then((response) => res.json({response}))
     .catch((err) => res.json(err))

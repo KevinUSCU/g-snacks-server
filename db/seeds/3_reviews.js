@@ -31,7 +31,7 @@ exports.seed = function(knex, Promise) {
     {id: 28, title: 'Wow!', text: 'These are delicous!', rating: 3, snack_id: 28, user_id: 3},
     {id: 29, title: 'Wow!', text: 'These are delicous!', rating: 3, snack_id: 29, user_id: 3},
     {id: 30, title: 'Wow!', text: 'These are delicous!', rating: 3, snack_id: 30, user_id: 3},
-    {id: 31, title: '*Snobby Voice*', text: 'I have certainly had sooooo much better.', rating: 1, snack_id: 1, user_id: 2},
+    {id: 31, title: '*Snobby Voice*', text: 'I have certainly had sooooo much better.', rating: 1, snack_id: 1, user_id: 2}
   ])
   .then(() => {
     return knex.raw(`SELECT setval('reviews_id_seq', (SELECT MAX(id) FROM reviews));`)
