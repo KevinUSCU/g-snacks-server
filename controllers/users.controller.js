@@ -6,7 +6,7 @@ class UsersController {
 
   static index (req, res, next) {
     // *** Require admin token to retrieve index of all users ***
-    return UserModel.getAll()
+    UserModel.getAll()
     .then(users => res.status(200).json({ response: users }))
     .catch(next)
   }
@@ -15,7 +15,7 @@ class UsersController {
     // *** This route requires either role of 'admin' or the user who's id we are requesting ***
     const id = req.params.id
     // Get user data from db
-    return UserModel.getUser(id)
+    UserModel.getUser(id)
     .then(user => {
       if (!user) throw new Error('noSuchUser')
       return res.status(200).json({ response: user })
@@ -65,7 +65,7 @@ class UsersController {
     const { first_name, last_name, email, password } = req.body
     // If email was changed, verify no duplicates
     if (email) {
-      return UserModel.getUserIdByEmail(email)
+      UserModel.getUserIdByEmail(email)
       .then(existingUser => {
         if (existingUser) throw new Error('duplicateUser')
       })
@@ -75,7 +75,7 @@ class UsersController {
       .catch(next)
     } else {
       // Update user profile with supplied data
-      return UserModel.update(id, first_name, last_name, undefined, password)
+      UserModel.update(id, first_name, last_name, undefined, password)
       .then(userId => res.status(200).json({ response: userId }))
       .catch(next)
     }
@@ -85,7 +85,7 @@ class UsersController {
     // *** Deleting a user requires either role of 'admin' or the user who's id we are requesting ***
     const id = req.params.id
     // Delete user
-    return UserModel.destroy(id)
+    UserModel.destroy(id)
     .then(response => res.status(204).json())
     .catch(next)
   }
@@ -117,7 +117,7 @@ class UsersController {
     if (!role) throw new Error('missingRole')
     if (role !== 'admin' && role !== 'user') throw new Error('incorrectRoleType')
     // Update role of user in db
-    return UserModel.update(id, undefined, undefined, undefined, undefined, role)
+    UserModel.update(id, undefined, undefined, undefined, undefined, role)
     .then(userId => {
       if (!userId) throw new Error('noSuchUser')
       return res.status(200).json({ response: userId })

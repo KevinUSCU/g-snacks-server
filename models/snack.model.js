@@ -7,16 +7,17 @@ class snackModel {
     return db('snacks')
   }
 
-  static create (name, description, img) {
+  static getOneWithReviews (id) {
     return db('snacks')
-    .insert(name, description, img)
-    .returning('*')
+    .leftJoin('reviews', 'snacks.id', 'reviews.snack_id')
+    .where('snacks.id', id)
+    .leftJoin('users', 'users.id', 'reviews.user_id')
   }
 
-  static getOne (id) {
-    return db('snacks')
-    .where({id})
-    .first()
+  static getAllReviewsForOneSnack(id) {
+    return db('reviews')
+		.where('snack_id', id)
+    .returning('*')
   }
 
   static update (id, body) {

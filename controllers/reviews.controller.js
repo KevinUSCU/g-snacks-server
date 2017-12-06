@@ -1,17 +1,17 @@
-const snackModel = require('../models/snack.model')
+const reviewModel = require('../models/review.model')
 
-class snacksController {
+class reviewsController {
   constructor () {}
 
   static showAll (req, res, next) {
-    snackModel.all()
+    reviewModel.all()
     .then((response) => res.json({response}))
     .catch((err) => res.json(err))
   }
 
-  static getOneWithReviews (req, res, next) {
+  static getOne (req, res, next) {
     let id = req.params.id
-    snackModel.getOneWithReviews(id)
+    reviewModel.getOne(id)
     .then((response) => res.json({response}))
     .catch((err) => res.json(err))
   }
@@ -19,17 +19,17 @@ class snacksController {
   static update (req, res, next) {
     let id = req.params.id
     let body = req.body
-    snackModel.update(id, body)
+    reviewModel.update(id, body)
     .then((response) => res.json({response}))
     .catch((err) => res.json(err))
   }
 
   static destroy (req, res, next){
     let id = req.params.id
-    snackModel.destroy(id)
+    reviewModel.destroy(id)
     .then((response) => res.json({response}))
     .catch((err) => res.json(err))
   }
 }
 
-module.exports = snacksController
+module.exports = reviewsController

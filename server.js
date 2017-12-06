@@ -18,6 +18,8 @@ const snacks = require('./routes/snacks.routes');
 app.use('/api/snacks', snacks);
 const users = require('./routes/users.routes')
 app.use('/api/users', users)
+const reviews = require('./routes/reviews.routes')
+app.use('/api/reviews', reviews)
 
 app.use((req, res) => {
   const status = 404;
