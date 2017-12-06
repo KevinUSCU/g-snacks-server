@@ -4,15 +4,15 @@ class snacksController {
   constructor () {}
 
   static showAll (req, res, next) {
-    console.log('snacks controller')
     snackModel.all()
     .then((response) => res.json({response}))
     .catch((err) => res.json(err))
   }
 
-  static getOne (req, res, next) {
+  static getOneWithReviews (req, res, next) {
     let id = req.params.id
-    snackModel.getOne(id)
+
+    snackModel.getOneWithReviews(id)
     .then((response) => res.json({response}))
     .catch((err) => res.json(err))
   }

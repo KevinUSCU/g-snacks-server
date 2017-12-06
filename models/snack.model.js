@@ -4,14 +4,20 @@ class snackModel {
   constructor () {}
 
   static all () {
-    console.log('snacks model')
     return db('snacks')
   }
 
-  static getOne (id) {
+  static getOneWithReviews (id) {
     return db('snacks')
-    .where({id})
-    .first()
+    .join('reviews', 'snacks.id', 'reviews.snack_id')
+    .where('snack_id', id)
+    .join('users', 'users.id', 'reviews.user_id')
+  }
+
+  static getAllReviewsForOneSnack(id) {
+    return db('reviews')
+		.where('snack_id', id)
+    .returning('*')
   }
 
   static update (id, body) {
