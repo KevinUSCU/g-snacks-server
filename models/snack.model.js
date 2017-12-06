@@ -16,7 +16,7 @@ class snackModel {
   static update (id, body) {
     return db('snacks')
     .where({id})
-    .update({name: body.name, description: body.description})
+    .update({name: body.name, description: body.description, img: body.img})
     .returning('*')
   }
 
