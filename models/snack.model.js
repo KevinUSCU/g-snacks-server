@@ -7,6 +7,12 @@ class snackModel {
     return db('snacks')
   }
 
+  static create (name, description, img) {
+    return db('snacks')
+    .insert(name, description, img)
+    .returning('*')
+  }
+
   static getOne (id) {
     return db('snacks')
     .where({id})
