@@ -7,6 +7,12 @@ class snackModel {
     return db('snacks')
   }
 
+  static getOne (id) {
+    return db('snacks')
+    .where('snacks.id', id)
+    .first()
+  }
+
   static getOneWithReviews (id) {
     return db('snacks')
     .leftJoin('reviews', 'snacks.id', 'reviews.snack_id')
