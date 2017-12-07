@@ -26,6 +26,12 @@ class snackModel {
     .returning('*')
   }
 
+  static create (name, description, img) {
+    return db('snacks')
+    .insert(name, description, img)
+    .returning('*')
+  }
+
   static update (id, body) {
     return db('snacks')
     .where({id})

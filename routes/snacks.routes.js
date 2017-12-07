@@ -6,6 +6,7 @@ router.get('/', snacksController.showAll)
 router.get('/:id', snacksController.getOne)
 router.get('/:id/reviews', snacksController.getOneWithReviews)
 router.put('/:id', snacksController.update)
+router.post('/', snacksController.create)
 router.delete('/:id', snacksController.destroy)
 
 module.exports = router

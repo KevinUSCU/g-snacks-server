@@ -23,6 +23,13 @@ class snacksController {
     .catch((err) => res.json(err))
   }
 
+  static create (req, res, next) {
+    let body = req.body
+    snackModel.create(body)
+    .then((response) => res.json({response}))
+    .catch((err) => res.json(err))
+  }
+
   static update (req, res, next) {
     let id = req.params.id
     let body = req.body
