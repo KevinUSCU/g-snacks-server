@@ -9,7 +9,7 @@ router.post('/login', UsersCtrl.login)
 
 // Edit user
 // Change user profile
-router.put('/:id', AuthCtrl.isOwner, UsersCtrl.update)
+router.put('/:id', AuthCtrl.isOwnerOfUser, UsersCtrl.update)
 // Change user role
 router.put('/promote/:id', AuthCtrl.isAdmin, UsersCtrl.changeRole)
 
@@ -19,9 +19,9 @@ router.get('/fromToken', UsersCtrl.showOneFromToken)
 // View all users
 router.get('/', AuthCtrl.isAdmin, UsersCtrl.index)
 // View user by id route (might not be needed?)
-router.get('/:id', AuthCtrl.isOwnerOrAdmin, UsersCtrl.showOne)
+router.get('/:id', AuthCtrl.isOwnerOfUserOrAdmin, UsersCtrl.showOne)
 
 // Delete User
-router.delete('/:id', AuthCtrl.isOwnerOrAdmin, UsersCtrl.destroy)
+router.delete('/:id', AuthCtrl.isOwnerOfUserOrAdmin, UsersCtrl.destroy)
 
 module.exports = router
