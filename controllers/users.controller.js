@@ -83,9 +83,14 @@ class UsersController {
 
   static destroy (req, res, next) {
     // *** Deleting a user requires either role of 'admin' or the user who's id we are requesting ***
+    // Admin accounts cannot be deleted
     const id = req.params.id
+    UserModel.getUser(id)
+    .then(response => {
+      if (response.role === 'admin') throw new Error('cannotDeleteAdmin')
+    })
     // Delete user
-    UserModel.destroy(id)
+    .then(() => UserModel.destroy(id))
     .then(response => res.status(204).json())
     .catch(next)
   }
