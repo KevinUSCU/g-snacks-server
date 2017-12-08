@@ -6,6 +6,7 @@ const AuthCtrl = require('../controllers/auth.controller')
 router.get('/', reviewsController.showAll)
 router.get('/:id', reviewsController.getOne)
 router.put('/:id', reviewsController.update)
+router.post('/', reviewsController.create)
 router.delete('/:id', reviewsController.destroy)
 
 

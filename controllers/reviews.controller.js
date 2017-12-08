@@ -24,6 +24,13 @@ class reviewsController {
     .catch((err) => res.json(err))
   }
 
+  static create (req, res, next) {
+    let body = req.body
+    reviewModel.create(body)
+    .then((response) => res.json({response}))
+    .catch((err) => res.json(err))
+  }
+
   static destroy (req, res, next){
     let id = req.params.id
     reviewModel.destroy(id)
