@@ -60,7 +60,7 @@ class UsersController {
   }
 
   static update (req, res, next) {
-    // *** Editing profile data requires the user who's id we are updating ***
+    // *** Editing profile data requires the user whose id we are updating ***
     const id = req.params.id
     const { first_name, last_name, email, password } = req.body
     // If email was changed, verify no duplicates
