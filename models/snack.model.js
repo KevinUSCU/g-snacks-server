@@ -5,6 +5,7 @@ class snackModel {
 
   static all () {
     return db('snacks')
+    .orderBy('name')
   }
 
   static getOne (id) {
