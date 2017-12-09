@@ -16,6 +16,7 @@ class snackModel {
 
   static getOneWithReviews (id) {
     return db('snacks')
+    .select('title', 'text', 'rating', 'snack_id', 'user_id', 'first_name', 'last_name', 'name', 'description', 'price', 'img')
     .leftJoin('reviews', 'snacks.id', 'reviews.snack_id')
     .where('snacks.id', id)
     .leftJoin('users', 'users.id', 'reviews.user_id')
