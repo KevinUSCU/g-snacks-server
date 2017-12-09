@@ -25,10 +25,21 @@ class reviewsController {
   }
 
   static create (req, res, next) {
-    let body = req.body
-    reviewModel.create(body)
+    const { title, text, rating, snack_id, user_id } = req.body
+
+    if(!title) throw new Error('requireAllFields')
+    if(!text) throw new Error('requireAllFields')
+    if(!rating) throw new Error('requireAllFields')
+    if(!snack_id) throw new Error('requireAllFields')
+    if(!user_id) throw new Error('requireAllFields')
+
+    reviewModel.create(req.body)
     .then((response) => res.json({response}))
-    .catch((err) => res.json(err))
+    .catch(next)
+  }
+
+  static complete(req, res, next) {
+
   }
 
   static destroy (req, res, next){

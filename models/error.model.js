@@ -15,6 +15,19 @@ function processErrorMessage(err) {
       case 'noSuchUser': return { status: 404, message: `Requested user does not exist` }
       case 'requestorInvalid': return { status: 401, message: 'Requestor is not a valid user' }
       case 'unauthorizedUser': return { status: 401, message: 'User is not authorized to access this resource' }
+      case 'requireAllFields': return { status: 400, message: 'Please fill in all fields before submitting' }
+      
+      //**incompleteAddSnacksForm -- 'Please complete all fields'
+      //inputSnackNameTooLarge (255)
+      //inputSnackDescriptionTooLarge (no limit)
+      //image url.. is not a url
+
+      //**incompleteAddReviewForm -- 'Please complete all fields'
+      //inputReviewTitleTooLarge (255)
+      //inputReviewTextareaTooLarge -- (no limit) 'Please shorten your review. Reviews must be XX character or less'
+      //noStars -- 'Ratings must be at least 1 star'
+
+      //**elsewhere: hide 'leave a review' button when user has already left a review
       default:
         console.log(err)
         return { status: 500, message: 'Our apologies, but an internal server error has occurred' }

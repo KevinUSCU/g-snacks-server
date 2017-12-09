@@ -24,10 +24,15 @@ class snacksController {
   }
 
   static create (req, res, next) {
-    let body = req.body
-    snackModel.create(body)
+    const { name, description, img } = req.body
+
+    if(!name) throw new Error('requireAllFields')
+    if(!description) throw new Error('requireAllFields')
+    if(!img) throw new Error('requireAllFields')
+
+    snackModel.create(req.body)
     .then((response) => res.json({response}))
-    .catch((err) => res.json(err))
+    .catch(next)
   }
 
   static update (req, res, next) {
