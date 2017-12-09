@@ -5,6 +5,7 @@ class UserModel {
   static getAll () {
     return db('users')
     .select('id', 'first_name', 'last_name', 'email', 'role')
+    .orderBy('first_name')
   }
 
   static getUser (id) {
