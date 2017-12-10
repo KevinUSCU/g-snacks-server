@@ -15,6 +15,7 @@ function processErrorMessage(err) {
       case 'noSuchUser': return { status: 404, message: `Requested user does not exist` }
       case 'requestorInvalid': return { status: 401, message: 'Requestor is not a valid user' }
       case 'unauthorizedUser': return { status: 401, message: 'User is not authorized to access this resource' }
+      case 'requireAllFields': return { status: 400, message: 'Please fill in all fields before submitting' }
       default:
         console.log(err)
         return { status: 500, message: 'Our apologies, but an internal server error has occurred' }
