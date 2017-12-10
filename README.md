@@ -1,92 +1,116 @@
+# gSnacks67 (Server)
+> A team project to build a snacks review website. Users can sign up and log in using auth and read and post reviews. An admin dashboard is also provided.
+> This is the backend server.
+
+The gSnacks67 server uses JavaScript with Express and a PostgreSQL database (via Knex.JS) to store and process data requests. Auth uses bcryptjs and jsonwebtoken.
+
+* Stores and serves users, snacks, and reviews.
+* Uses auth tokens to protect routes. Tokens are only used to verify the requesting user ID; the database is queried for all other user details.
+* Errors are selectively filtered between the server and client to provide helpful responses, while also protecting backend layout from being exposed to the client.
+
+## Database Structure
+
+![](snacks_erd.jpg)
+
+## Installation
+1. npm install
+### Development
+2. createdb snacks_dev
+3. npm run knex migrate:latest
+4. npm run knex seed:run
+5. npm run dev
+
+## Next Steps
+- [ ] Split sensitive user data (ie. hashed_passwords) into it's own table to further protect data.
+
+## Spec
 ![logo](./public/res/logo_dark_small.png)
 
 Your goal is to create a CRUD application to review and rate your favorite snacks at Galvanize! Draw on the topics you've learned from Q1 & Q2 to design and deploy an application that covers the desired user stories.
 
 This repository is solely the backend of the project. You will need to build the frontend as well!
 
-## User Stories
+### User Stories
 
 This repo includes some files to get you started, but it's up to you to finish these user stories:
 
-- **User can view all snacks (already complete)**
-  - When the user visits the homepage they see a list of all snacks
+- ✔ **User can view all snacks (already complete)**
+  - ✔ When the user visits the homepage they see a list of all snacks
 
 
-- **User can view details of an individual snack**
-  - When the user clicks on a snack, display full information about that snack
-  - Display list of reviews for snack
-  - Display average rating of snack
+- ✔ **User can view details of an individual snack**
+  - ✔ When the user clicks on a snack, display full information about that snack
+  - ✔ Display list of reviews for snack
+  - ✔ Display average rating of snack
 
 
-- **User can signup a new account (registration)**
-  - Display a form for the user to enter a name, email & password.
-  - Clearly indicate registration success or failure to the user
-  - The same email cannot be registered more than once
+- ✔ **User can signup a new account (registration)**
+  - ✔ Display a form for the user to enter a name, email & password.
+  - ✔ Clearly indicate registration success or failure to the user
+  - ✔ The same email cannot be registered more than once
 
 
-- **User can login with an existing account (authentication)**
-  - Display a form for the user to enter an email & password.
-  - Clearly indicate login success or failure to the user
+- ✔ **User can login with an existing account (authentication)**
+  - ✔ Display a form for the user to enter an email & password.
+  - ✔ Clearly indicate login success or failure to the user
 
 
-- **User can post a review of a snack**
-  - Display a form for the user to post a new review for a specific snack
-  - If any information is missing when the user submits, surface an error
-  - If everything is correct, bring them back to the snack's page to see their review
-  - A visual clue should show the user which reviews are there own
-  - Users may not post more than one review per snack
+- ✔ **User can post a review of a snack**
+  - ✔ Display a form for the user to post a new review for a specific snack
+  - ✔ If any information is missing when the user submits, surface an error
+  - ✔ If everything is correct, bring them back to the snack's page to see their review
+  - ✔ A visual clue should show the user which reviews are there own
+  - ✔ Users may not post more than one review per snack
 
-- **User can edit their own review of a snack**
-  - Display a form for the user to edit a review for a specific snack
-  - Pre-fill form with current review data
-  - If any information is missing when the user submits, surface an error
-  - User **cannot** edit other users reviews
-
-
-- **User can delete their own review of a snack**
-  - Provide option to delete a users own review for a specific snack
-  - User **cannot** delete other users reviews
+- ✔ **User can edit their own review of a snack**
+  - ✔ Display a form for the user to edit a review for a specific snack
+  - ✔ Pre-fill form with current review data
+  - ✔ If any information is missing when the user submits, surface an error
+  - ✔ User **cannot** edit other users reviews
 
 
-## Stretch
+- ✔ **User can delete their own review of a snack**
+  - ✔ Provide option to delete a users own review for a specific snack
+  - ✔ User **cannot** delete other users reviews
 
-- **Unauthenticated users do not see forms and fields they cannot use**
-  - Hide the review form if a user is not logged-in
-  - Hide all buttons the user is not authorized to use
+#### Stretch
 
-- **Admins can view a special admin dashboard for them**
-  - Add `admin` column to users table
-  - Update seeds to make a new user an admin
-  - When a user logs in and they are an admin, bring them to this page
-  - Users who are not admins are redirected to the home page
+- ✔ **Unauthenticated users do not see forms and fields they cannot use**
+  - ✔ Hide the review form if a user is not logged-in
+  - ✔ Hide all buttons the user is not authorized to use
 
-
-- **Admins can create, update, and remove snacks**
-  - Admin can add new snacks through this admin page
-  - Admin can remove existing snacks through this admin page
-  - Admin can edit existing snacks through this admin page
+- ✔ **Admins can view a special admin dashboard for them**
+  - ✔ Add `admin` column to users table
+  - ✔ Update seeds to make a new user an admin
+  - ✔ When a user logs in and they are an admin, bring them to this page
+  - ✔ Users who are not admins are redirected to the home page
 
 
-- **Admins can remove users**
-  - Admin can remove users through the admin page
-  - When a user is removed, all their reviews are deleted
-  - Admins **cannot** remove other admins (or themselves)
+- ✔ **Admins can create, update, and remove snacks**
+  - ✔ Admin can add new snacks through this admin page
+  - ✔ Admin can remove existing snacks through this admin page
+  - ✔ Admin can edit existing snacks through this admin page
 
 
-## Entity Relationship Diagram
+- ✔ **Admins can remove users**
+  - ✔ Admin can remove users through the admin page
+  - ✔ When a user is removed, all their reviews are deleted
+  - ✔ Admins **cannot** remove other admins (or themselves)
+
+
+### Entity Relationship Diagram
 
 ![snacks ERD](./snacks_erd.jpg)
 
 **NOTE:** The migrations and seeds for the `snacks` table are included. You will need to implement the `users` and `reviews` tables yourself following this relationship diagram.
 
-## Routes
+### Routes
 
 | Request Method | Request URL | Request Body | Response Status | Response Body                                                  |
 |----------------|-------------|--------------|-----------------|----------------------------------------------------------------|
 | `POST`         | `/api/users`           | `{ "first_name": "Linus", "last_name": "Torvalds", "email": "linus.torvalds@hotmail.com", "password": "ilovelinux" }` | `200`           | `{ id: 2, "first_name": "Linus", "last_name": "Torvalds", ... } |
 
-
-## Setup
+### Setup
 
 Start by forking and cloning this repo.
 Then install all dependencies
