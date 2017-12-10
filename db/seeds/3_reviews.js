@@ -1,9 +1,9 @@
 exports.seed = function(knex, Promise) {
   // Inserts sample reviews
   return knex('reviews').insert([
-    {id: 1, title: 'Wow!', text: 'These are delicous!', rating: 5, snack_id: 1, user_id: 3},
-    {id: 2, title: 'Ew', text: 'These are not delicous!', rating: 2, snack_id: 2, user_id: 2},
-    {id: 3, title: 'huh?', text: 'random gibberish random gibberish random gibberish', rating: 5, snack_id: 2, user_id: 1},
+    {id: 1, title: 'Wow!', text: 'These are delicous!', rating: 4, snack_id: 1, user_id: 3},
+    {id: 2, title: 'Ew', text: 'These are *not* delicous!', rating: 1, snack_id: 1, user_id: 2},
+    {id: 3, title: 'Tasty!', text: "So tasty. Yes, so tasty, you'll love them!", rating: 5, snack_id: 1, user_id: 1},
     {id: 4, title: 'Oh, lawdy lawd!', text: 'You heard me!', rating: 3, snack_id: 4, user_id: 1},
     {id: 5, title: 'Wow-za!', text: 'Emphasis on the -za?', rating: 5, snack_id: 5, user_id: 3},
     {id: 6, title: '*Snobby Voice*', text: 'I have certainly had sooooo much better.', rating: 1, snack_id: 6, user_id: 2},
@@ -30,8 +30,8 @@ exports.seed = function(knex, Promise) {
     {id: 27, title: 'Wow!', text: 'These are delicous!', rating: 3, snack_id: 27, user_id: 3},
     {id: 28, title: 'Wow!', text: 'These are delicous!', rating: 3, snack_id: 28, user_id: 3},
     {id: 29, title: 'Wow!', text: 'These are delicous!', rating: 3, snack_id: 29, user_id: 3},
-    {id: 30, title: 'Wow!', text: 'These are delicous!', rating: 3, snack_id: 30, user_id: 3},
-    {id: 31, title: '*Snobby Voice*', text: 'I have certainly had sooooo much better.', rating: 1, snack_id: 1, user_id: 2}
+    {id: 30, title: 'Wow!', text: 'These are delicous!', rating: 3, snack_id: 3, user_id: 3},
+    {id: 31, title: '*Snobby Voice*', text: 'I have certainly had sooooo much better.', rating: 1, snack_id: 2, user_id: 2}
   ])
   .then(() => {
     return knex.raw(`SELECT setval('reviews_id_seq', (SELECT MAX(id) FROM reviews));`)
