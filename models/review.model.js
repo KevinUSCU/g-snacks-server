@@ -16,7 +16,7 @@ class reviewModel {
   static update (id, body) {
     return db('reviews')
     .where({id})
-    .update({name: body.name, description: body.description})
+    .update({ title: body.name, text: body.text, rating: body.rating, thisKeyIsSkipped: undefined })
     .returning('*')
   }
 
